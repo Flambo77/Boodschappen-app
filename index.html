@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boodschappen</title>
+
+<style>
+body{
+font-family:-apple-system;
+background:#f2f2f7;
+padding:20px;
+}
+
+h1{
+text-align:center;
+}
+
+input{
+width:70%;
+padding:12px;
+font-size:16px;
+border-radius:10px;
+border:1px solid #ccc;
+}
+
+button{
+padding:12px;
+font-size:16px;
+border:none;
+border-radius:10px;
+background:#007AFF;
+color:white;
+}
+
+li{
+background:white;
+margin-top:10px;
+padding:15px;
+border-radius:12px;
+list-style:none;
+font-size:18px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>🛒 Boodschappen</h1>
+
+<input id="item" placeholder="Voeg product toe">
+<button onclick="addItem()">+</button>
+
+<ul id="list"></ul>
+
+<script>
+
+let items = JSON.parse(localStorage.getItem("items")) || []
+
+function render(){
+list.innerHTML=""
+
+items.forEach((item,index)=>{
+let li=document.createElement("li")
+
+li.innerHTML=`
+<input type="checkbox" ${item.done?"checked":""}
+onclick="toggle(${index})">
+${item.name}
+`
+
+list.appendChild(li)
+})
+}
+
+function addItem(){
+if(item.value==="") return
+
+items.push({name:item.value,done:false})
+
+item.value=""
+
+save()
+}
+
+function toggle(i){
+items[i].done=!items[i].done
+save()
+}
+
+function save(){
+localStorage.setItem("items",JSON.stringify(items))
+render()
+}
+
+render()
+
+</script>
+
+</body>
+</html>
